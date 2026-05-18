@@ -71,5 +71,3 @@ dependencies {
 
 ```
 ```
-
-Selesai! Jika langkah ini diikuti secara berurutan, masalah dependensi maupun error inisialisasi seharusnya tidak akan muncul lagi.
