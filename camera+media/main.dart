@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -70,8 +71,10 @@ class _CameraScreenState extends State<CameraScreen> {
 
             if (!mounted) return;
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Foto berhasil disimpan: ${image.path}')),
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DisplayPicture(imagetPath: image.path),
+              ),
             );
           } catch (e) {
             print(e);
@@ -80,6 +83,20 @@ class _CameraScreenState extends State<CameraScreen> {
         child: const Icon(Icons.camera_alt),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class DisplayPicture extends StatelessWidget {
+  final String imagetPath;
+
+  const DisplayPicture({super.key, required this.imagetPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Hasil Foto")),
+      body: Center(child: Image.file(File(imagetPath))),
     );
   }
 }
