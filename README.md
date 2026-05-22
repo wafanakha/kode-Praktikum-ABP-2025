@@ -66,8 +66,19 @@ Scroll ke baris paling bawah pada file `build.gradle.kts` tersebut (di luar blok
 ```kotlin
 // Letakkan ini di baris paling bawah file
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 ```
+Enable juga library desugaringnya
+
+
+```kotlin
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        //tambahkan line ini
+        isCoreLibraryDesugaringEnabled = true
+    }
+
 ```
