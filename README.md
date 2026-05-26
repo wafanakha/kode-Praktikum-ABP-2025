@@ -82,3 +82,92 @@ Enable juga library desugaringnya
     }
 
 ```
+
+---
+
+# SET UP FIREBASE NOTIFICATION
+
+Cara manual (tanpa CLI) ini adalah metode klasik yang sangat baik untuk dipelajari karena membuat Anda lebih memahami bagaimana Firebase sebenarnya terhubung ke sistem Android di bawah layar.
+
+Berikut adalah langkah-langkah membuat project Firebase Notifikasi dengan cara mengunduh file `google-services.json`.
+
+---
+
+### **Langkah 1: Menyiapkan Project di Firebase Console**
+
+1. Buka [Firebase Console](https://console.firebase.google.com/) dan klik **Add project** (Buat project baru).
+2. Beri nama project (misal: `PraktikumNotif`), lalu klik **Continue**.
+3. lalu klik **Create project**.
+4. Setelah project selesai dibuat, di halaman utama (Project Overview), klik ikon **Android** untuk menambahkan aplikasi Android.
+
+### **Langkah 2: Mendaftarkan Aplikasi & Mengunduh JSON**
+
+Di halaman pendaftaran aplikasi Android pada Firebase:
+
+1. **Android package name:** Ini harus sama persis dengan ID aplikasi Anda.
+* Buka file `android/app/build.gradle` di project Flutter Anda.
+* Cari baris `applicationId` (biasanya berupa `"com.example.nama_project"`). Copy dan paste ke Firebase.
+
+
+2. Klik **Register app**.
+3. Klik tombol **Download google-services.json**.
+4. Pindahkan file `google-services.json` yang baru saja diunduh ke dalam folder `android/app/` di project Flutter Anda. *(Pastikan namanya tepat `google-services.json`, tidak ada tambahan angka seperti `(1)`).*
+5. Di web Firebase, klik **Next** sampai selesai (Continue to console). Kita akan melakukan konfigurasi Gradle secara manual di langkah selanjutnya.
+
+---
+
+### **Langkah 3: Konfigurasi File Gradle Android**
+
+Ini adalah langkah krusial pengganti FlutterFire CLI. Anda perlu mengedit dua file Gradle.
+
+**1. Buka `android/settings.gradlee` (Project-level)**
+Cari blok `dependencies` (biasanya di dalam blok `buildscript`) atau buat jika belum ada dan tambahkan *classpath* Google Services:
+
+```gradle
+buildscript {
+    // ... konfigurasi lainnya ...
+    dependencies {
+        // Tambahkan baris ini:
+        classpath 'com.google.gms:google-services:4.4.1' 
+    }
+}
+
+```
+**2. Buka `android/app/build.gradle` (App-level)**
+Scroll ke bagian paling bawah file tersebut, lalu tambahkan baris ini untuk mengaktifkan plugin:
+
+```gradle
+// Tambahkan di baris paling bawah
+apply plugin: 'com.google.gms.google-services'
+
+```
+
+
+---
+
+### **Langkah 4: Instalasi Dependensi di Flutter**
+
+Buka terminal di VS Code (atau PowerShell) dan jalankan:
+
+```bash
+flutter pub add firebase_core
+flutter pub add firebase_messaging
+
+```
+
+---
+
+### **Langkah 5: Menulis Kode Dart (`main.dart`)**
+
+Perbedaan utama kode ini dengan versi CLI adalah kita **tidak memerlukan** file `firebase_options.dart`. Pada Android, perintah `Firebase.initializeApp()` akan secara otomatis membaca konfigurasi dari file `google-services.json` yang sudah Anda letakkan tadi.
+
+Timpa file `lib/main.dart` Anda dengan kode yang ada di folder firebase_notification di repository ini:
+
+### **Langkah 6: Jalankan dan Test**
+
+1. Jalankan Project menggunakan run & Debug
+2. Salin token yang muncul di layar.
+3. Buka **Firebase Console** -> Menu **Messaging** (di bawah Engage) -> **Create your first campaign** -> **Firebase Notification messages**.
+4. Isi judul dan pesan, lalu klik **Send test message** di sebelah kanan.
+5. Masukkan token Anda, lalu klik **Test**.
+
