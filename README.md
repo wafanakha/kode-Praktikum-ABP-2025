@@ -1,11 +1,10 @@
-
-# SET UP NOTIFICATION ANDROID 
+# SET UP NOTIFICATION ANDROID
 
 ---
 
 ### Langkah 1: Tambahkan Package
 
-Buka terminal di *root* (folder utama) proyek Flutter Anda, lalu jalankan perintah ini untuk menginstal *package* secara otomatis:
+Buka terminal di _root_ (folder utama) proyek Flutter Anda, lalu jalankan perintah ini untuk menginstal _package_ secara otomatis:
 
 ```bash
 flutter pub add flutter_local_notifications
@@ -19,7 +18,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^17.0.0 # Gunakan versi terbaru
-
 ```
 
 ### Langkah 2: Beri Izin di Android Manifest
@@ -28,9 +26,9 @@ Mulai Android 13 (API Level 33), aplikasi wajib meminta izin untuk memunculkan n
 
 Buka file `android/app/src/main/AndroidManifest.xml`, lalu tambahkan dua baris `uses-permission` ini tepat **di atas** tag `<application>`:
 
-```xml
+````xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -52,13 +50,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-        
+
         // Tambahkan baris ini secara hati-hati (perhatikan huruf besarnya):
-        isCoreLibraryDesugaringEnabled = true 
+        isCoreLibraryDesugaringEnabled = true
     }
 }
 
-```
+````
 
 **B. Tambahkan Dependency Desugaring**
 Scroll ke baris paling bawah pada file `build.gradle.kts` tersebut (di luar blok `android`). Jika belum ada blok `dependencies`, buat sendiri:
@@ -70,8 +68,8 @@ dependencies {
 }
 
 ```
-Enable juga library desugaringnya
 
+Enable juga library desugaringnya
 
 ```kotlin
     compileOptions {
@@ -80,6 +78,18 @@ Enable juga library desugaringnya
         //tambahkan line ini
         isCoreLibraryDesugaringEnabled = true
     }
+
+```
+
+---
+
+# SET UP MAPS
+
+Buka terminal di VS Code (atau PowerShell) dan jalankan:
+
+```bash
+flutter pub add firebase_core
+flutter pub add firebase_messaging
 
 ```
 
@@ -105,13 +115,13 @@ Berikut adalah langkah-langkah membuat project Firebase Notifikasi dengan cara m
 Di halaman pendaftaran aplikasi Android pada Firebase:
 
 1. **Android package name:** Ini harus sama persis dengan ID aplikasi Anda.
-* Buka file `android/app/build.gradle` di project Flutter Anda.
-* Cari baris `applicationId` (biasanya berupa `"com.example.nama_project"`). Copy dan paste ke Firebase.
 
+- Buka file `android/app/build.gradle` di project Flutter Anda.
+- Cari baris `applicationId` (biasanya berupa `"com.example.nama_project"`). Copy dan paste ke Firebase.
 
 2. Klik **Register app**.
 3. Klik tombol **Download google-services.json**.
-4. Pindahkan file `google-services.json` yang baru saja diunduh ke dalam folder `android/app/` di project Flutter Anda. *(Pastikan namanya tepat `google-services.json`, tidak ada tambahan angka seperti `(1)`).*
+4. Pindahkan file `google-services.json` yang baru saja diunduh ke dalam folder `android/app/` di project Flutter Anda. _(Pastikan namanya tepat `google-services.json`, tidak ada tambahan angka seperti `(1)`)._
 5. Di web Firebase, klik **Next** sampai selesai (Continue to console). Kita akan melakukan konfigurasi Gradle secara manual di langkah selanjutnya.
 
 ---
@@ -121,18 +131,19 @@ Di halaman pendaftaran aplikasi Android pada Firebase:
 Ini adalah langkah krusial pengganti FlutterFire CLI. Anda perlu mengedit dua file Gradle.
 
 **1. Buka `android/settings.gradlee` (Project-level)**
-Cari blok `dependencies` (biasanya di dalam blok `buildscript`) atau buat jika belum ada dan tambahkan *classpath* Google Services:
+Cari blok `dependencies` (biasanya di dalam blok `buildscript`) atau buat jika belum ada dan tambahkan _classpath_ Google Services:
 
 ```gradle
 buildscript {
     // ... konfigurasi lainnya ...
     dependencies {
         // Tambahkan baris ini:
-        classpath 'com.google.gms:google-services:4.4.1' 
+        classpath 'com.google.gms:google-services:4.4.1'
     }
 }
 
 ```
+
 **2. Buka `android/app/build.gradle` (App-level)**
 Scroll ke bagian paling bawah file tersebut, lalu tambahkan baris ini untuk mengaktifkan plugin:
 
@@ -141,7 +152,6 @@ Scroll ke bagian paling bawah file tersebut, lalu tambahkan baris ini untuk meng
 apply plugin: 'com.google.gms.google-services'
 
 ```
-
 
 ---
 
@@ -171,3 +181,4 @@ Timpa file `lib/main.dart` Anda dengan kode yang ada di folder firebase_notifica
 4. Isi judul dan pesan, lalu klik **Send test message** di sebelah kanan.
 5. Masukkan token Anda, lalu klik **Test**.
 
+---
